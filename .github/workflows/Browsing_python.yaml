@@ -1,0 +1,20 @@
+name: Check Python Versions in Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-python-versions:
+    runs-on: ubuntu-latest
+    container:
+      image: adamwilsonlab/emma:latest
+
+    steps:
+      - name: Find all Python binaries and print versions
+        run: |
+          echo "🔍 Searching for all python binaries..."
+          find / -type f \( -name "python" -o -name "python3" -o -regex ".*python[0-9\.]*" \) 2>/dev/null | sort | while read py; do
+            echo "---"
+            echo "🧪 Found at: $py"
+            "$py" --version || echo "⚠️ Failed to run $py"
+          done
