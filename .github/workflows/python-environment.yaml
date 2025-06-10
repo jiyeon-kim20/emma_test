@@ -1,20 +1,31 @@
-name: List virtualenvs and Python environments
+name: Which Python in Docker
 
 on:
   workflow_dispatch:
 
 jobs:
-  check-docker-tags:
+  which-python:
     runs-on: ubuntu-latest
+    container:
+      image: adamwilsonlab/emma:latest
 
     steps:
-      - name: List virtualenvs and Python environments
+      - name: Check which python and python3
         run: |
-          echo "== Conda envs (if any) =="
-          conda env list || echo "No conda"
-      
-          echo "== Virtualenv directories =="
-          find ~ -type d -name "r-reticulate" 2>/dev/null || true
-      
-          echo "== Reticulate Python config =="
-          Rscript -e "reticulate::py_discover_config()"
+          echo "🔍 which python:"
+          which python || echo "python not found"
+
+          echo "🔍 which python3:"
+          which python3 || echo "python3 not found"
+
+          echo "🔍 which -a python:"
+          which -a python || echo "python (all) not found"
+
+          echo "🔍 which -a python3:"
+          which -a python3 || echo "python3 (all) not found"
+
+          echo "🔍 python3 version:"
+          python3 --version || echo "python3 --version failed"
+
+          echo "🔍 python version:"
+          python --version || echo "python --version failed"
