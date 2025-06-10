@@ -1,0 +1,20 @@
+name: List virtualenvs and Python environments
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-docker-tags:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: List virtualenvs and Python environments
+        run: |
+          echo "== Conda envs (if any) =="
+          conda env list || echo "No conda"
+      
+          echo "== Virtualenv directories =="
+          find ~ -type d -name "r-reticulate" 2>/dev/null || true
+      
+          echo "== Reticulate Python config =="
+          Rscript -e "reticulate::py_discover_config()"
