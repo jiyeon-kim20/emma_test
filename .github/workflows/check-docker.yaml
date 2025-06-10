@@ -1,14 +1,15 @@
-name: Check Docker Image Timestamp
+name: Check All Docker Tag Timestamps
 
 on:
   workflow_dispatch:
 
 jobs:
-  check-docker-tag:
+  check-docker-tags:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Query Docker Hub for latest tag update time
+      - name: Query all Docker tags and show their update timestamps
         run: |
-          echo "Checking latest update time for adamwilsonlab/emma:latest"
-          curl -s "https://hub.docker.com/v2/repositories/adamwilsonlab/emma/tags/latest" | jq '.last_updated'
+          echo "Fetching all tags for adamwilsonlab/emma..."
+          curl -s "https://hub.docker.com/v2/repositories/adamwilsonlab/emma/tags/?page_size=100" | \
+            jq -r '.results[] | "\(.name): \(.last_updated)"'
