@@ -10,32 +10,9 @@ jobs:
       image: adamwilsonlab/emma:latest
 
     steps:
-      - name: Check if `ee` is importable in /opt/conda/bin/python3
+      - name: Check for earthengine-api in r-reticulate
         run: |
-          echo "🔍 Checking /opt/conda/bin/python3"
-          if [ -x /opt/conda/bin/python3 ]; then
-            /opt/conda/bin/python3 -m pip show earthengine-api || echo "❌ earthengine-api not found"
-            /opt/conda/bin/python3 -c "import ee; print('✅ import ee OK:', ee.__version__)" || echo "❌ import ee failed"
-          else
-            echo "❌ /opt/conda/bin/python3 does not exist"
-          fi
-
-      - name: Check if `ee` is importable in /usr/bin/python3
-        run: |
-          echo "🔍 Checking /usr/bin/python3"
-          if [ -x /usr/bin/python3 ]; then
-            /usr/bin/python3 -m pip show earthengine-api || echo "❌ earthengine-api not found"
-            /usr/bin/python3 -c "import ee; print('✅ import ee OK:', ee.__version__)" || echo "❌ import ee failed"
-          else
-            echo "❌ /usr/bin/python3 does not exist"
-          fi
-
-      - name: Check if `ee` is importable in /bin/python3
-        run: |
-          echo "🔍 Checking /bin/python3"
-          if [ -x /bin/python3 ]; then
-            /bin/python3 -m pip show earthengine-api || echo "❌ earthengine-api not found"
-            /bin/python3 -c "import ee; print('✅ import ee OK:', ee.__version__)" || echo "❌ import ee failed"
-          else
-            echo "❌ /bin/python3 does not exist"
-          fi
+          echo "Checking pip list:"
+          /opt/conda/envs/r-reticulate/bin/pip list | grep earthengine
+          echo "Trying Python import and version check:"
+          /opt/conda/envs/r-reticulate/bin/python -c "import ee; print(ee.__version__)"
