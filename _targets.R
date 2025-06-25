@@ -43,7 +43,7 @@ library(googledrive)
     credentials <- ee$ServiceAccountCredentials(service_account, json_token)
     ee$Initialize(credentials = credentials)
 
-    #Setting up needed objects for rgee
+  #Setting up needed objects for rgee
 
    message("Initializing rgee")
 
